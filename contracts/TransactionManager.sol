@@ -3,11 +3,11 @@ pragma solidity ^0.8.0;
 
 contract TransactionManager {
 
-    string public name;
+    string public message;
     address payable public owner;
 
-    constructor( string memory _name ) {
-        name = _name;
+    constructor( string memory _Message ) {
+        message = _Message;
         owner = payable(msg.sender);
     }
 
@@ -21,5 +21,9 @@ contract TransactionManager {
     function withdraw() payable public onlyOwner {
         (bool success, ) = owner.call{value: address(this).balance}("");
         require(success, "Transfer unsuccessfull");
+    }
+
+    function changeMessage(string memory _message) public onlyOwner {
+        message = _message;
     }
 }
