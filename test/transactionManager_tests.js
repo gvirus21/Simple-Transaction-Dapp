@@ -6,6 +6,7 @@ describe("Transaction Manager", function () {
   let transactionManager;
   let adrs1;
   let adrs2;
+  let depositAmount;
 
   before(async () => {
     let TransactionManager = await ethers.getContractFactory(
@@ -29,12 +30,23 @@ describe("Transaction Manager", function () {
   });
 
   it("Deposit function should deposit correct amount of ETH", async () => {
-    const depositAmount = ethers.utils.parseEther("1");
+    depositAmount = ethers.utils.parseEther("10");
 
-    const depositTx = await transactionManager.deposit({
+    await transactionManager.connect(adrs2).deposit({
       value: depositAmount,
     });
 
     expect(await provider.getBalance(transactionManager.address)).to.equal(depositAmount);
   });
+
+  it("Should withdraw all amount to Owner if withdraw funciton is called by Owner", async () => {
+    await transactionManager.connect(adrs1).withdraw();
+    expect(await provider.getBalance(transactionManager.address)).to.equal(0)
+  })
+
+  it("Should fail withdraw if not called by owner", async () => {
+    await expect(transactionManager.connect(adrs2).withdraw()).to.revertedWith(
+      "Only Owner can perform this action."
+    );
+  })
 });
