@@ -38,7 +38,7 @@ const Nav = ({
       <h1 className="text-2xl font-bold font-mono">Transaction Dapp</h1>
       <div>
         {isConnected ? (
-          <div className="bg-violet-900 px-5 py-2 rounded-md">
+          <div className="bg-cyan-700 px-5 py-2 rounded-md">
             {" "}
             <p className="text-white ">{`${currentAccount.substr(
               0,

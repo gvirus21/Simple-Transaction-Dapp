@@ -13,6 +13,7 @@ export default function Home() {
     <div>
       <Nav isConnected={isConnected} setIsConnected={setIsConnected} currentAccount={currentAccount} setCurrentAccount={setCurrentAccount} />
       <HomePage
+        isConnected={isConnected}
         message={message}
         isOwner={isOwner}
         setMessage={setMessage}
