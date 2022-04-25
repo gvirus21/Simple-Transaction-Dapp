@@ -16,10 +16,12 @@ const HomePage = ({
     // will change message string in smartcontract
   };
 
-  const makeDeposit = () => {};
+  const makeDeposit = () => {
+    // will make a deposit request
+  };
 
   const withdraw = () => {
-    alert("withdraw");
+    // will make withdraw from contract
   };
 
   return (
