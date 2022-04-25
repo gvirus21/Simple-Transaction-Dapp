@@ -9,6 +9,20 @@ export default function Home() {
   const [depositAmount, setDepositAmount] = useState(0);
   const [isOwner, setIsOwner] = useState(true);
 
+  useEffect(() => { handleReload() }, [])
+
+    const handleReload = async () => {
+      if (window.ethereum) {
+       const accounts = await window.ethereum.request({
+         method: "eth_accounts",
+       });
+       if (accounts[0] != undefined) {
+         setCurrentAccount(accounts[0])
+         setIsConnected(true)
+       }
+     }
+  }
+
   return (
     <div>
       <Nav isConnected={isConnected} setIsConnected={setIsConnected} currentAccount={currentAccount} setCurrentAccount={setCurrentAccount} />
