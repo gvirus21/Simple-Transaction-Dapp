@@ -9,7 +9,6 @@ const HomePage = ({
   setDepositAmount,
 }) => {
   useEffect(() => {
-    console.log(message);
   }, [message]);
 
   const updateMessage = () => {

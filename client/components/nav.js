@@ -1,17 +1,35 @@
 import React from "react";
+import { useEffect } from "react";
 
-const Nav = ({ isConnected, setIsConnected, currentAccount, setCurrentAccount }) => {
+const Nav = ({
+  isConnected,
+  setIsConnected,
+  currentAccount,
+  setCurrentAccount,
+}) => {
 
+  useEffect(() => {
+     if (window.ethereum !== undefined) {
+    window.ethereum.on("accountsChanged", (acc) => {
+      setCurrentAccount(acc[0])
+    });
+   }
+  }, [])
+  
+ 
+  
   const handleConnect = async () => {
     if (window.ethereum !== undefined) {
-      const accounts = await window.ethereum.request({ method: "eth_requestAccounts" }) 
-      
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+
       if (accounts) {
-        setCurrentAccount(accounts[0])
-        setIsConnected(true)
+        setCurrentAccount(accounts[0]);
+        setIsConnected(true);
       }
     } else {
-      alert("Please install Metamask")
+      alert("Please install Metamask");
     }
   };
 
@@ -22,7 +40,10 @@ const Nav = ({ isConnected, setIsConnected, currentAccount, setCurrentAccount })
         {isConnected ? (
           <div className="bg-violet-900 px-5 py-2 rounded-md">
             {" "}
-            <p className="text-white ">{`${currentAccount.substr(0,5)}....${currentAccount.substr(-4)}`}</p>
+            <p className="text-white ">{`${currentAccount.substr(
+              0,
+              5
+            )}....${currentAccount.substr(-4)}`}</p>
           </div>
         ) : (
           <button
