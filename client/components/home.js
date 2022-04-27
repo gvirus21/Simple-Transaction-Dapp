@@ -8,6 +8,7 @@ const HomePage = ({
   setMessage,
   depositAmount,
   setDepositAmount,
+  balance,
 }) => {
   useEffect(() => {
   }, [message]);
@@ -31,7 +32,7 @@ const HomePage = ({
           <h1 className="font-semibold text-3xl py-6">
             Message imported from contract
           </h1>
-          <h2 className="text-xl py-3">ETH Balance: 69 ETH</h2>
+          <h2 className="text-xl py-3">ETH Balance: {balance} ETH</h2>
           <div className="flex items-center m-10">
             <input
               type="text"

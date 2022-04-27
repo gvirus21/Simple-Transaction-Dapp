@@ -1,24 +1,31 @@
 import Nav from "../components/nav";
 import HomePage from "../components/home";
 import { useState, useEffect } from "react";
-const { etheres } = require("ethers");
+const { ethers } = require("ethers");
 
 export default function Home() {
   const [isConnected, setIsConnected] = useState(false);
+  const [balance, setBalance] = useState(0)
   const [currentAccount, setCurrentAccount] = useState("0xCh9..08c");
   const [message, setMessage] = useState("Hello");
   const [depositAmount, setDepositAmount] = useState(0);
   const [isOwner, setIsOwner] = useState(true);
 
-    if (window.ethereum) {
-    const provider = new etheres.providers.Web3Provider(window.ethereum)
-      const signer = provider.getSigner()
-      const contractAddress = '0x...88';
-  }
+  const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+  let provider;
+  let signer;
 
   useEffect(() => {
     handleReload();
+    setup()
   }, []);
+
+  const setup = () => {
+    if (window.ethereum) {
+      provider = new ethers.providers.Web3Provider(window.ethereum);
+      signer = provider.getSigner();
+    }
+  };
 
   const handleReload = async () => {
     if (window.ethereum) {
@@ -28,16 +35,17 @@ export default function Home() {
       if (accounts[0] != undefined) {
         setCurrentAccount(accounts[0]);
         setIsConnected(true);
+        getBalance()
       }
     }
   };
 
   const getBalance = async () => {
-    const balance = await provider.getBalance(contractAddress)
-    const balanceFormatted = etheres.utils.formatEther(balance)
-    
-
-  }
+    const balance = await provider.getBalance(contractAddress);
+    const balanceFormatted = ethers.utils.formatEther(balance);
+    console.log(balanceFormatted)
+    setBalance(balanceFormatted)
+  };
 
   return (
     <div>
@@ -46,6 +54,8 @@ export default function Home() {
         setIsConnected={setIsConnected}
         currentAccount={currentAccount}
         setCurrentAccount={setCurrentAccount}
+        setBalance={setBalance}
+        getBalance={getBalance}
       />
       <HomePage
         isConnected={isConnected}
@@ -54,6 +64,7 @@ export default function Home() {
         setMessage={setMessage}
         depositAmount={depositAmount}
         setDepositAmount={setDepositAmount}
+        balance={balance}
       />
     </div>
   );
