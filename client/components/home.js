@@ -30,14 +30,13 @@ const HomePage = ({
       {isConnected ? (
         <div className=" flex flex-col justify-center items-center h-1/2 w-screen my-9 px-24">
           <h1 className="font-semibold text-3xl py-6">
-            Message imported from contract
+            {message}
           </h1>
           <h2 className="text-xl py-3">ETH Balance: {balance} ETH</h2>
           <div className="flex items-center m-10">
             <input
               type="text"
               className="my-3 mx-8 text-2xl px-2 py-1 border-2 border-black rounded-md"
-              value={message}
               onChange={(e) => {
                 setMessage(e.target.value);
               }}
@@ -53,7 +52,6 @@ const HomePage = ({
             <input
               type="number"
               className="my-3 mx-8 text-2xl px-2 py-1 border-2 border-black rounded-md"
-              value={depositAmount}
               onChange={(e) => {
                 setDepositAmount(e.target.value);
               }}
