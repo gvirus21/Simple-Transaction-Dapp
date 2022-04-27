@@ -2,18 +2,20 @@ import Nav from "../components/nav";
 import HomePage from "../components/home";
 import { useState, useEffect } from "react";
 const { ethers } = require("ethers");
+import ABI from './ABI.json'
 
 export default function Home() {
   const [isConnected, setIsConnected] = useState(false);
   const [balance, setBalance] = useState(0)
-  const [currentAccount, setCurrentAccount] = useState("0xCh9..08c");
-  const [message, setMessage] = useState("Hello");
+  const [currentAccount, setCurrentAccount] = useState("");
+  const [message, setMessage] = useState("");
   const [depositAmount, setDepositAmount] = useState(0);
   const [isOwner, setIsOwner] = useState(true);
 
   const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
   let provider;
   let signer;
+  let contract
 
   useEffect(() => {
     handleReload();
@@ -24,6 +26,7 @@ export default function Home() {
     if (window.ethereum) {
       provider = new ethers.providers.Web3Provider(window.ethereum);
       signer = provider.getSigner();
+      contract = new ethers.Contract(contractAddress, ABI, signer)
     }
   };
 
@@ -36,6 +39,7 @@ export default function Home() {
         setCurrentAccount(accounts[0]);
         setIsConnected(true);
         getBalance()
+        getMessage()
       }
     }
   };
@@ -47,6 +51,12 @@ export default function Home() {
     setBalance(balanceFormatted)
   };
 
+  const getMessage = async () => {
+    console.log("get message called")
+    const contractMessage = await contract.message();
+    setMessage(contractMessage)
+  }
+
   return (
     <div>
       <Nav
@@ -56,6 +66,7 @@ export default function Home() {
         setCurrentAccount={setCurrentAccount}
         setBalance={setBalance}
         getBalance={getBalance}
+        getMessage={getMessage}
       />
       <HomePage
         isConnected={isConnected}

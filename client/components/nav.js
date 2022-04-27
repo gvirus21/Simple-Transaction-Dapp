@@ -8,6 +8,7 @@ const Nav = ({
   setCurrentAccount,
   setBalance,
   getBalance,
+  getMessage,
 }) => {
 
   useEffect(() => {
@@ -31,6 +32,7 @@ const Nav = ({
         setIsConnected(true);
 
         getBalance()
+        getMessage()
       }
     } else {
       alert("Please install Metamask");
