@@ -9,10 +9,11 @@ export default function Home() {
   const [balance, setBalance] = useState(0);
   const [currentAccount, setCurrentAccount] = useState("");
   const [message, setMessage] = useState("");
+  const [inputMessage, setInputMessage] = useState('')
   const [depositAmount, setDepositAmount] = useState(0);
   const [isOwner, setIsOwner] = useState(true);
 
-  const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+  const contractAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
   let provider;
   let signer;
   let contract;
@@ -48,10 +49,9 @@ export default function Home() {
     try {
       const balance = await provider.getBalance(contractAddress);
       const balanceFormatted = ethers.utils.formatEther(balance);
-      console.log(balanceFormatted);
       setBalance(balanceFormatted);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
     
   };
@@ -65,6 +65,13 @@ export default function Home() {
       console.error(err);
     }
   };
+
+  const updateMessage = async (e) => {
+    e.preventDefault()
+    const changeMessageTx = await contract.changeMessage(inputMessage)
+    await changeMessageTx.wait()
+    setMessage(inputMessage)
+  }
 
   return (
     <div>
@@ -82,6 +89,9 @@ export default function Home() {
         message={message}
         isOwner={isOwner}
         setMessage={setMessage}
+        updateMessage={updateMessage}
+        inputMessage={inputMessage}
+        setInputMessage={setInputMessage}
         depositAmount={depositAmount}
         setDepositAmount={setDepositAmount}
         balance={balance}

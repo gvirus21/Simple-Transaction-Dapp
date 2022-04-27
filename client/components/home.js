@@ -5,17 +5,11 @@ const HomePage = ({
   isConnected,
   message,
   isOwner,
-  setMessage,
-  depositAmount,
   setDepositAmount,
   balance,
+  updateMessage,
+  setInputMessage
 }) => {
-  useEffect(() => {
-  }, [message]);
-
-  const updateMessage = () => {
-    // will change message string in smartcontract
-  };
 
   const makeDeposit = () => {
     // will make a deposit request
@@ -29,16 +23,14 @@ const HomePage = ({
     <>
       {isConnected ? (
         <div className=" flex flex-col justify-center items-center h-1/2 w-screen my-9 px-24">
-          <h1 className="font-semibold text-3xl py-6">
-            {message}
-          </h1>
+          <h1 className="font-semibold text-3xl py-6">{message}</h1>
           <h2 className="text-xl py-3">ETH Balance: {balance} ETH</h2>
           <div className="flex items-center m-10">
             <input
               type="text"
               className="my-3 mx-8 text-2xl px-2 py-1 border-2 border-black rounded-md"
               onChange={(e) => {
-                setMessage(e.target.value);
+                setInputMessage(e.target.value);
               }}
             />
             <button
@@ -76,10 +68,11 @@ const HomePage = ({
           )}
         </div>
       ) : (
-          <div className="flex justify-center my-60">
-            <h1 className="font-light text-5xl text-cyan-900">Please Connect Your Wallet To Continue</h1>
-          </div>
-        
+        <div className="flex justify-center my-60">
+          <h1 className="font-light text-5xl text-cyan-900">
+            Please Connect Your Wallet To Continue
+          </h1>
+        </div>
       )}
     </>
   );
